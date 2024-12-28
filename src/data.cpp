@@ -54,8 +54,8 @@ sourceData* getSourceData(const String& openWeatherUrl, const String& homeCenter
     result.feels = -24.3;  
     result.humidity = 87;
 
-    result.inside = 21.3;
-    result.outside = -37.8;
+    result.inside = 22.3;
+    result.outside = -12.8;
     result.light = 55;
 
     // result.dataTimestamp = 0;

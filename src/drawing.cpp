@@ -6,7 +6,8 @@
 #include "FreeSansBold10pt7b.h"
 #include "House_Icons86pt7b.h"   // House icons font: https://www.dafont.com/house-icons.font
 #include "HPSimplified28pt7b.h"  // HP Simplified Font: https://fonnts.com/hp-simplified/
-#include "HPSimplified34pt7b.h"
+#include "HPSimplified44pt7b.h"
+#include "HPSimplified54pt7b.h"
 #include "WIFI16pt7b.h"          // several WiFi icons (free): https://www.dafont.com/wifi.font
 
 #define TFT_VERYDARKGREY    0x2104   // 0x4208
@@ -30,16 +31,6 @@ void drawCelsiusIcon(uint32_t left, uint32_t top, uint32_t color, bool isLarge)
   sp.drawString("C", left + 14, top - 5);
   sp.fillCircle(left + 9, top - 3, 3 + size, color);
   sp.fillCircle(left + 9, top - 3, 1 + size, TFT_BLACK);
-}
-
-void drawThermometerIcon(uint32_t left, uint32_t top)
-{
-  sp.setTextDatum(TL_DATUM);
-  sp.drawRoundRect(left + 3, top - 6, 5, 22, 3, TFT_CYAN);
-  sp.fillRect(left + 4, top + 5, 3, 7, TFT_RED);
-  sp.drawCircle(left + 5, top + 17, 5, TFT_CYAN);
-  sp.fillCircle(left + 5, top + 17, 4, TFT_RED);
-  sp.fillCircle(left + 5, top + 16, 2, TFT_WHITE);
 }
 
 void drawWaterDropIcon(uint32_t left, uint32_t top)
@@ -105,36 +96,45 @@ void drawHeader(const sourceData& src)
 
 void drawMain(const sourceData& src)
 {
-  drawThermometerIcon(70, 54);
-  drawCelsiusIcon(86, 56, TFT_SKYBLUE, true);
-
+  int topMargin = 60;
   int color = src.outside > -50 ? TFT_SKYBLUE : TFT_VERYDARKGREY;
+  int decimal = abs(int(10 * src.outside)) % 10;
   sp.setTextColor(color);
-  sp.setFreeFont(&HPSimplified34pt7b);
-  sp.setTextDatum(TC_DATUM);
-  sp.drawFloat(src.outside, 1, sp.width()/2, 90);
+  sp.setTextDatum(BR_DATUM);
+  sp.setFreeFont(&HPSimplified54pt7b);
+  sp.drawNumber(int(src.outside), sp.width() - 39, topMargin + 90);
+  sp.setFreeFont(&FreeSansBold18pt7b);
+  sp.drawNumber(decimal, sp.width() + 1, topMargin + 78);
+  sp.fillCircle(sp.width() - 31, topMargin + 66, 5, color);
   sp.setTextDatum(TL_DATUM);
+
+  drawCelsiusIcon(133, topMargin + 4, TFT_SKYBLUE, true);
 }
 
 void drawHome(const sourceData& src, bool isConnected, bool autoBrightness)
 {
   // walls and roof of a house
-  sp.setTextColor(TFT_WHITE);
+  sp.setTextColor(TFT_DARKGREY);
   sp.setFreeFont(&House_Icons86pt7b);
   sp.setTextDatum(TC_DATUM);
-  sp.drawString("<", sp.width()/2, 182);  // house icon
+  sp.drawString("<", sp.width()/2, 172);  // house icon
   sp.fillRoundRect(26, 230, 114, 62, 0, TFT_BLACK);  // "removing" door and window
 
   // value
   int color = src.inside > -50 ? TFT_YELLOW : TFT_VERYDARKGREY;
+  int decimal = abs(int(10 * src.inside)) % 10;
+  sp.setTextDatum(TR_DATUM);
   sp.setTextColor(color);
-  sp.setFreeFont(&HPSimplified28pt7b);
-  sp.drawFloat(src.inside, 1, sp.width()/2, 234);
+  sp.setFreeFont(&HPSimplified44pt7b);
+  sp.drawNumber(int(src.inside), sp.width() - 53, 214);
+  sp.setFreeFont(&FreeSansBold12pt7b);
+  sp.drawNumber(decimal, sp.width() - 27, 263);
+  sp.fillCircle(sp.width() - 49, 276, 4, color);
   sp.setTextDatum(TL_DATUM);
 
-  if (autoBrightness) sp.fillCircle(15, 200, 3, TFT_WHITE);
-  drawCelsiusIcon(70, 214, TFT_YELLOW, false);
-  drawSignalIcon(128, 176, isConnected);
+  if (autoBrightness) sp.fillCircle(15, 190, 3, TFT_DARKGREY);
+  drawCelsiusIcon(110, 228, TFT_YELLOW, false);
+  drawSignalIcon(128, 166, isConnected);
 }
 
 void drawFooter(const sourceData& src)
