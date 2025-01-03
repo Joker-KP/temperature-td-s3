@@ -3,6 +3,8 @@
 ## Introduction
 This project displays indoor and outdoor temperatures on a T-Display-S3 device. It is designed to provide temperature and weather readings using external sensors, with values accessible via HTTP. The data is displayed on the screen.
 
+<table><tr><td valign="top">
+  
 ## Features
 - Uses PlatformIO for development
 - Connects to the OpenWeather API and a custom server to gather data
@@ -13,6 +15,12 @@ This project displays indoor and outdoor temperatures on a T-Display-S3 device. 
 2. Navigate to the project directory
 3. Open project with Visual Studio Code and PlatformIO
 4. Upload to your device
+
+</td><td>
+
+<img src="view.jpg" alt="view" width="200"/>
+
+</td></tr></table>
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
